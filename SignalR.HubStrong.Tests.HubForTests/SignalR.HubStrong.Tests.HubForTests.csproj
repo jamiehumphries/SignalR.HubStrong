@@ -92,7 +92,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Startup.cs" />
@@ -100,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SignalR.HubStrong.Tests.Contracts\SignalR.HubStrong.Tests.Contracts.csproj">
+      <Project>{73157ab0-eeef-480d-8c32-c348199b7ce9}</Project>
+      <Name>SignalR.HubStrong.Tests.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -30,6 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.25.1\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
     <Reference Include="IISExpress.Automation">
       <HintPath>..\packages\IISExpress.Automation.0.1.1\lib\net40\IISExpress.Automation.dll</HintPath>
     </Reference>
@@ -76,6 +85,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SignalR.HubStrong.Tests.Contracts\SignalR.HubStrong.Tests.Contracts.csproj">
+      <Project>{73157AB0-EEEF-480D-8C32-C348199B7CE9}</Project>
+      <Name>SignalR.HubStrong.Tests.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SignalR.HubStrong.Tests.HubForTests\SignalR.HubStrong.Tests.HubForTests.csproj">
       <Project>{2d0f3f4d-62f2-47e0-885b-613500cbc3a8}</Project>
       <Name>SignalR.HubStrong.Tests.HubForTests</Name>

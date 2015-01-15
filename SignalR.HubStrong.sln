@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.HubStrong.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.HubStrong.Tests.HubForTests", "SignalR.HubStrong.Tests.HubForTests\SignalR.HubStrong.Tests.HubForTests.csproj", "{2D0F3F4D-62F2-47E0-885B-613500CBC3A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR.HubStrong.Tests.Contracts", "SignalR.HubStrong.Tests.Contracts\SignalR.HubStrong.Tests.Contracts.csproj", "{73157AB0-EEEF-480D-8C32-C348199B7CE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2D0F3F4D-62F2-47E0-885B-613500CBC3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D0F3F4D-62F2-47E0-885B-613500CBC3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D0F3F4D-62F2-47E0-885B-613500CBC3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73157AB0-EEEF-480D-8C32-C348199B7CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73157AB0-EEEF-480D-8C32-C348199B7CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73157AB0-EEEF-480D-8C32-C348199B7CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73157AB0-EEEF-480D-8C32-C348199B7CE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
