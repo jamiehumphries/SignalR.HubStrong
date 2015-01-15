@@ -86,14 +86,14 @@
             await Task.Delay(100);
 
             // Then
-            A.CallTo(() => client.NoArgs()).MustHaveHappened();
-            A.CallTo(() => client.OneArg("a")).MustHaveHappened();
-            A.CallTo(() => client.TwoArgs("a", "b")).MustHaveHappened();
-            A.CallTo(() => client.ThreeArgs("a", "b", "c")).MustHaveHappened();
-            A.CallTo(() => client.FourArgs("a", "b", "c", "d")).MustHaveHappened();
-            A.CallTo(() => client.FiveArgs("a", "b", "c", "d", "e")).MustHaveHappened();
-            A.CallTo(() => client.SixArgs("a", "b", "c", "d", "e", "f")).MustHaveHappened();
-            A.CallTo(() => client.SevenArgs("a", "b", "c", "d", "e", "f", "g")).MustHaveHappened();
+            A.CallTo(() => client.Args0()).MustHaveHappened();
+            A.CallTo(() => client.Args1("a")).MustHaveHappened();
+            A.CallTo(() => client.Args2("a", "b")).MustHaveHappened();
+            A.CallTo(() => client.Args3("a", "b", "c")).MustHaveHappened();
+            A.CallTo(() => client.Args4("a", "b", "c", "d")).MustHaveHappened();
+            A.CallTo(() => client.Args5("a", "b", "c", "d", "e")).MustHaveHappened();
+            A.CallTo(() => client.Args6("a", "b", "c", "d", "e", "f")).MustHaveHappened();
+            A.CallTo(() => client.Args7("a", "b", "c", "d", "e", "f", "g")).MustHaveHappened();
         }
 
         [Test]
