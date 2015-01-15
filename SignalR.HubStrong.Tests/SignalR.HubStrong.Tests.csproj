@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HubProxyExtensions\ClientMappingExtensionsTests.cs" />
+    <Compile Include="HubProxyExtensions\TestHubClient.cs" />
     <Compile Include="TestHelpers\TestHubSite.cs" />
     <Compile Include="TestSetUp.cs" />
   </ItemGroup>

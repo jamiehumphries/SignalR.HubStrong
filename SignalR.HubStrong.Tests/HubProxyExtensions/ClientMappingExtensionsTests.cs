@@ -13,20 +13,37 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    [TestFixture]
+    [TestFixture(true)]
+    [TestFixture(false)]
     public class ClientMappingExtensionsTests
     {
+        private readonly bool useGenericMapping;
         private HubConnection hubConnection;
         private IHubProxy hub;
         private ITestHubClient client;
+
+        public ClientMappingExtensionsTests(bool useGenericMapping)
+        {
+            this.useGenericMapping = useGenericMapping;
+        }
 
         [TestFixtureSetUp]
         public void SetUp()
         {
             hubConnection = new HubConnection(TestHubSite.Url);
             hub = hubConnection.CreateHubProxy("TestHub");
-            client = A.Fake<ITestHubClient>();
-            hub.MapClientMethods<ITestHubClient>(client);
+
+            if (useGenericMapping)
+            {
+                client = A.Fake<ITestHubClient>();
+                hub.MapClientMethods<ITestHubClient>(client);
+            }
+            else
+            {
+                client = A.Fake<TestHubClient>();
+                hub.MapClientMethods(new TestHubClient(client));
+            }
+
             hubConnection.Start().Wait();
         }
 
@@ -96,8 +113,7 @@
             A.CallTo(() => client.MultipleParamTypes(intParam, longParam, boolParam, stringParam,
                 A<string[]>.That.Matches(o => o.Contains("hello") && o.Contains("world")),
                 A<Dictionary<string, int>>.That.Matches(d => d["test"].Equals(100)),
-                A<Foo>.That.Matches(f => f.Bar == "Baz")
-                )).MustHaveHappened();
+                A<Foo>.That.Matches(f => f.Bar == "Baz"))).MustHaveHappened();
         }
     }
 }
