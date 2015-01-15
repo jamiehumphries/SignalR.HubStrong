@@ -72,6 +72,7 @@
         {
             // When
             await hub.Invoke("CallHello");
+            await Task.Delay(100);
 
             // Then
             A.CallTo(() => client.Hello()).MustHaveHappened();
@@ -82,6 +83,7 @@
         {
             // When
             await hub.Invoke("CallArgsMethods", "a", "b", "c", "d", "e", "f", "g");
+            await Task.Delay(100);
 
             // Then
             A.CallTo(() => client.NoArgs()).MustHaveHappened();
@@ -108,6 +110,7 @@
 
             // When
             await hub.Invoke("CallMultipleParamTypes", intParam, longParam, boolParam, stringParam, arrayParam, dictionaryParam, objectParam);
+            await Task.Delay(100);
 
             // Then
             A.CallTo(() => client.MultipleParamTypes(intParam, longParam, boolParam, stringParam,
