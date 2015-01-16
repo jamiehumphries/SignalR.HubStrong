@@ -24,6 +24,10 @@
 
         public HubProxy(IHubProxy hubProxy)
         {
+            if (!typeof(THub).IsInterface)
+            {
+                throw new InvalidOperationException("The generic type parameter T must be an interface when creating a typed HubProxy.");
+            }
             this.hubProxy = hubProxy;
         }
 
