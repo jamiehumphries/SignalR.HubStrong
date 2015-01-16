@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>SignalR.HubStrong</id>
+    <version>$version$</version>
+    <title>SignalR.HubStrong</title>
+    <authors>Jamie Humphries</authors>
+    <owners>Jamie Humphries</owners>
+    <projectUrl>http://jamiehumphries.github.io/SignalR.HubStrong/</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/jamiehumphries/SignalR.HubStrong/master/LICENSE.md</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/jamiehumphries/SignalR.HubStrong/master/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Map and invoke SignalR methods in a strongly typed way on the client and server.</description>
+    <tags>SignalR hub proxy strong strongly typed</tags>
+    <copyright>Copyright 2014</copyright>
+    <dependencies>
+      <dependency id="Castle.Core" version="3.3.3" />
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+      <dependency id="Microsoft.AspNet.SignalR.Client" version="2.2.0" />
+    </dependencies>
+  </metadata>
+</package>
