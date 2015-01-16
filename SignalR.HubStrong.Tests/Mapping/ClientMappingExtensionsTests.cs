@@ -1,10 +1,10 @@
-﻿namespace SignalR.HubStrong.Tests.HubProxyExtensions
+namespace SignalR.HubStrong.Tests.Mapping
 {
     using FakeItEasy;
     using FluentAssertions;
     using Microsoft.AspNet.SignalR.Client;
     using NUnit.Framework;
-    using SignalR.HubStrong.HubProxyExtensions;
+    using SignalR.HubStrong.Mapping;
     using SignalR.HubStrong.Tests.Contracts;
     using SignalR.HubStrong.Tests.TestHelpers;
     using System;

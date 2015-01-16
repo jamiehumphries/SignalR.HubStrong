@@ -49,10 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HubClientMethodAttribute.cs" />
-    <Compile Include="HubProxy.cs" />
-    <Compile Include="HubProxyExtensions\ClientMappingExtensions.cs" />
-    <Compile Include="HubProxyExtensions\InvocationExtensions.cs" />
+    <Compile Include="Invocation\HubProxyFactoryExtensions.cs" />
+    <Compile Include="Mapping\HubClientMethodAttribute.cs" />
+    <Compile Include="Invocation\HubProxy.cs" />
+    <Compile Include="Mapping\ClientMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

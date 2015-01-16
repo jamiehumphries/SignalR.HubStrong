@@ -1,8 +1,8 @@
-﻿namespace SignalR.HubStrong.HubProxyExtensions
+﻿namespace SignalR.HubStrong.Invocation
 {
     using Microsoft.AspNet.SignalR.Client;
 
-    public static class InvocationExtensions
+    public static class HubProxyFactoryExtensions
     {
         public static IHubProxy<T> CreateHubProxy<T>(this HubConnection hubConnection, string hubName) where T : class
         {

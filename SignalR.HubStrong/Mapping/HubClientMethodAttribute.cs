@@ -1,4 +1,4 @@
-﻿namespace SignalR.HubStrong
+﻿namespace SignalR.HubStrong.Mapping
 {
     using System;
 

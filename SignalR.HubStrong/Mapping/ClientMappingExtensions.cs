@@ -1,4 +1,4 @@
-﻿namespace SignalR.HubStrong.HubProxyExtensions
+﻿namespace SignalR.HubStrong.Mapping
 {
     using Microsoft.AspNet.SignalR.Client;
     using Newtonsoft.Json;

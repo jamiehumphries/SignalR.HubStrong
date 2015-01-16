@@ -1,4 +1,4 @@
-﻿namespace SignalR.HubStrong
+﻿namespace SignalR.HubStrong.Invocation
 {
     using Castle.DynamicProxy;
     using Microsoft.AspNet.SignalR.Client;

@@ -1,5 +1,6 @@
-namespace SignalR.HubStrong.Tests.HubProxyExtensions
+namespace SignalR.HubStrong.Tests
 {
+    using SignalR.HubStrong.Mapping;
     using SignalR.HubStrong.Tests.Contracts;
     using System.Collections.Generic;
 

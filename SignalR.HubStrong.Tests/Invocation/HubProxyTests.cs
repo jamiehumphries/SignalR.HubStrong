@@ -1,10 +1,11 @@
-﻿namespace SignalR.HubStrong.Tests
+namespace SignalR.HubStrong.Tests.Invocation
 {
     using FakeItEasy;
     using FluentAssertions;
     using Microsoft.AspNet.SignalR.Client;
     using Newtonsoft.Json.Linq;
     using NUnit.Framework;
+    using SignalR.HubStrong.Invocation;
     using SignalR.HubStrong.Tests.Contracts;
     using SignalR.HubStrong.Tests.TestHelpers;
     using System;
