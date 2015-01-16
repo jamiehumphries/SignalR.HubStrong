@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>SignalR.HubStrong by jamiehumphries</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>SignalR.HubStrong</h1>
+        <p>Map and invoke SignalR methods in a strongly typed way on the client and server.</p>
+
+        <p class="view"><a href="https://github.com/jamiehumphries/SignalR.HubStrong">View the Project on GitHub <small>jamiehumphries/SignalR.HubStrong</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/jamiehumphries/SignalR.HubStrong/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/jamiehumphries/SignalR.HubStrong/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/jamiehumphries/SignalR.HubStrong">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h4>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
+
+<div class="highlight highlight-csharp"><pre><span class="pl-s">public</span> <span class="pl-s">interface</span> <span class="pl-en">IChatHub</span>
+{
+    <span class="pl-st">string</span> <span class="pl-en">GetConnectionId</span>();
+    <span class="pl-st">void</span> <span class="pl-en">SendMessage</span>(<span class="pl-st">string</span> <span class="pl-vpf">message</span>, IProgress&lt;int&gt; onProgress);
+    <span class="pl-st">void</span> <span class="pl-en">Login</span>(<span class="pl-st">string</span> <span class="pl-vpf">name</span>);
+}
+
+<span class="pl-s">public</span> <span class="pl-s">interface</span> <span class="pl-en">IChatHubClient</span>
+{
+    <span class="pl-st">void</span> <span class="pl-en">NewMessage</span>(<span class="pl-st">string</span> <span class="pl-vpf">message</span>);
+    <span class="pl-st">void</span> <span class="pl-en">Greet</span>(<span class="pl-st">string</span> <span class="pl-vpf">name</span>);
+}
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">ChatHub</span> : <span class="pl-st">Hub</span>&lt;<span class="pl-st">IChatHubClient</span>&gt;, <span class="pl-st">IChatHub</span>
+{
+    <span class="pl-s">public</span> <span class="pl-st">string</span> <span class="pl-en">GetConnectionId</span>()
+    {
+        <span class="pl-k">return</span> Context.ConnectionId;
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">SendMessage</span>(<span class="pl-st">string</span> <span class="pl-vpf">message</span>, IProgress&lt;int&gt; onProgress)
+    {
+        <span class="pl-k">for</span> (<span class="pl-k">var</span> i = <span class="pl-c1">1</span>; i &lt;= <span class="pl-c1">10</span>; i++)
+        {
+            Thread.Sleep(<span class="pl-c1">200</span>);
+            onProgress.Report(i * <span class="pl-c1">10</span>);
+        }
+        Clients.All.NewMessage(message);
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">Login</span>(<span class="pl-st">string</span> <span class="pl-vpf">name</span>)
+    {
+        Clients.Caller.Greet(name);
+    }
+}
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">ChatHubClient</span> : <span class="pl-st">IChatHubClient</span>
+{
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">Greet</span>(<span class="pl-st">string</span> <span class="pl-vpf">name</span>)
+    {
+        Console.WriteLine(<span class="pl-s1"><span class="pl-pds">"</span>Hello, {0}!<span class="pl-pds">"</span></span>, name);
+    }
+
+    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">NewMessage</span>(<span class="pl-st">string</span> <span class="pl-vpf">message</span>)
+    {
+        Console.WriteLine(<span class="pl-s1"><span class="pl-pds">"</span>MESSAGE RECEIVED: {0}<span class="pl-pds">"</span></span>, message);
+    }
+}    
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">Program</span>
+{
+    <span class="pl-s">public</span> <span class="pl-s">static</span> <span class="pl-st">void</span> <span class="pl-en">Main</span>()
+    {
+        <span class="pl-k">var</span> hubConnection = <span class="pl-s">new</span> HubConnection(<span class="pl-s1"><span class="pl-pds">"</span>http://localhost:55555/<span class="pl-pds">"</span></span>);
+        <span class="pl-k">var</span> hub = hubConnection.CreateHubProxy&lt;IChatHub&gt;(<span class="pl-s1"><span class="pl-pds">"</span>ChatHub<span class="pl-pds">"</span></span>);
+        <span class="pl-k">var</span> client = <span class="pl-s">new</span> ChatHubClient();
+        hubConnection.Start().Wait();
+
+        <span class="pl-c">// Replaces multiple calls to hub.On("NewMessage", ...);</span>
+        hub.MapClientMethods&lt;IChatHubClient&gt;(client);
+
+        <span class="pl-c">// Replaces hub.Invoke&lt;string&gt;("GetConnectionId");</span>
+        <span class="pl-k">var</span> connectionId = hub.Invoke(h =&gt; h.GetConnectionId()).Result;
+        Console.WriteLine(<span class="pl-s1"><span class="pl-pds">"</span>Connected with ID: {0}<span class="pl-pds">"</span></span>, connectionId);
+
+        Console.Write(<span class="pl-s1"><span class="pl-pds">"</span>What's your name? <span class="pl-pds">"</span></span>);
+        <span class="pl-k">var</span> name = Console.ReadLine();
+        <span class="pl-c">// Replaces hub.Invoke("Login", name);</span>
+        hub.Invoke(h =&gt; h.Login(name));
+
+        <span class="pl-k">while</span> (<span class="pl-c1">true</span>)
+        {
+            <span class="pl-k">var</span> message = Console.ReadLine();
+            <span class="pl-c">// Replaces hub.Invoke("SendMessage", (int x) =&gt; OnProgress(x), message);</span>
+            hub.Invoke((h, p) =&gt; h.SendMessage(message, p), (<span class="pl-st">int</span> x) =&gt; OnProgress(x));
+        }
+    }
+
+    <span class="pl-s">private</span> <span class="pl-s">static</span> <span class="pl-st">void</span> <span class="pl-en">OnProgress</span>(<span class="pl-st">int</span> <span class="pl-vpf">progress</span>)
+    {
+        Console.WriteLine(<span class="pl-s1"><span class="pl-pds">"</span>{0}%<span class="pl-pds">"</span></span>, progress);
+    }
+}</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jamiehumphries">jamiehumphries</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
