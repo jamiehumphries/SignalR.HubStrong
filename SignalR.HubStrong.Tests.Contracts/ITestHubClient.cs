@@ -4,6 +4,7 @@
 
     public interface ITestHubClient
     {
+        // Mapping tests
         void Hello();
         void Args0();
         void Args1(object arg1);
@@ -14,5 +15,8 @@
         void Args6(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6);
         void Args7(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7);
         void MultipleParamTypes(int intParam, long longParam, bool boolParam, string stringParam, string[] arrayParam, Dictionary<string, int> dictionaryParam, Foo objectParam);
+
+        // Invocation tests
+        void Foo(string value);
     }
 }

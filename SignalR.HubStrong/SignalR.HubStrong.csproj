@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HubClientMethodAttribute.cs" />
+    <Compile Include="HubProxy.cs" />
     <Compile Include="HubProxyExtensions\ClientMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -71,5 +71,11 @@ namespace SignalR.HubStrong.Tests.HubProxyExtensions
         {
             fakeClient.MultipleParamTypes(intParam, longParam, boolParam, stringParam, arrayParam, dictionaryParam, objectParam);
         }
+
+        [HubClientMethod]
+        public void Foo(string value)
+        {
+            fakeClient.Foo(value);
+        }
     }
 }

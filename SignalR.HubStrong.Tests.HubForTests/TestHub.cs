@@ -2,9 +2,10 @@
 {
     using Microsoft.AspNet.SignalR;
     using SignalR.HubStrong.Tests.Contracts;
+    using System;
     using System.Collections.Generic;
 
-    public class TestHub : Hub<ITestHubClient>, ITestHubServer
+    public class TestHub : Hub<ITestHubClient>, ITestHub
     {
         public void CallHello()
         {
@@ -26,6 +27,29 @@
         public void CallMultipleParamTypes(int intParam, long longParam, bool boolParam, string stringParam, string[] arrayParam, Dictionary<string, int> dictionaryParam, Foo objectParam)
         {
             Clients.All.MultipleParamTypes(intParam, longParam, boolParam, stringParam, arrayParam, dictionaryParam, objectParam);
+        }
+
+        public void DoFoo(string value)
+        {
+            Clients.All.Foo(value);
+        }
+
+        public string DoFooAndReturnValue(string value)
+        {
+            DoFoo(value);
+            return value;
+        }
+
+        public void DoFooAndReportProgress(string value, IProgress<int> onProgress)
+        {
+            onProgress.Report(100);
+            DoFoo(value);
+        }
+
+        public string DoFooAndReportProgressAndReturnValue(string value, IProgress<int> onProgress)
+        {
+            DoFooAndReportProgress(value, onProgress);
+            return value;
         }
     }
 }

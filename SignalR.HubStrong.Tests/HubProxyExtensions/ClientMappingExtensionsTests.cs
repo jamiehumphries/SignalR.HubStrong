@@ -18,6 +18,7 @@
     public class ClientMappingExtensionsTests
     {
         private readonly bool useGenericMapping;
+
         private HubConnection hubConnection;
         private IHubProxy hub;
         private ITestHubClient client;
@@ -72,18 +73,19 @@
         {
             // When
             await hub.Invoke("CallHello");
-            await Task.Delay(100);
+            await Task.Delay(200);
 
             // Then
             A.CallTo(() => client.Hello()).MustHaveHappened();
         }
 
         [Test]
+        [Repeat(3)]
         public async Task Can_map_client_methods_with_any_number_of_arguments()
         {
             // When
             await hub.Invoke("CallArgsMethods", "a", "b", "c", "d", "e", "f", "g");
-            await Task.Delay(100);
+            await Task.Delay(200);
 
             // Then
             A.CallTo(() => client.Args0()).MustHaveHappened();
@@ -110,7 +112,7 @@
 
             // When
             await hub.Invoke("CallMultipleParamTypes", intParam, longParam, boolParam, stringParam, arrayParam, dictionaryParam, objectParam);
-            await Task.Delay(100);
+            await Task.Delay(200);
 
             // Then
             A.CallTo(() => client.MultipleParamTypes(intParam, longParam, boolParam, stringParam,
