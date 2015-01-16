@@ -13,38 +13,20 @@ namespace SignalR.HubStrong.Tests.Mapping
     using System.Linq;
     using System.Threading.Tasks;
 
-    [TestFixture(true)]
-    [TestFixture(false)]
+    [TestFixture]
     public class ClientMappingExtensionsTests
     {
-        private readonly bool useGenericMapping;
-
         private HubConnection hubConnection;
         private IHubProxy hub;
         private ITestHubClient client;
-
-        public ClientMappingExtensionsTests(bool useGenericMapping)
-        {
-            this.useGenericMapping = useGenericMapping;
-        }
 
         [TestFixtureSetUp]
         public void SetUp()
         {
             hubConnection = new HubConnection(TestHubSite.Url);
             hub = hubConnection.CreateHubProxy("TestHub");
-
-            if (useGenericMapping)
-            {
-                client = A.Fake<ITestHubClient>();
-                hub.MapClientMethods<ITestHubClient>(client);
-            }
-            else
-            {
-                client = A.Fake<TestHubClient>();
-                hub.MapClientMethods(new TestHubClient(client));
-            }
-
+            client = A.Fake<ITestHubClient>();
+            hub.MapClientMethods<ITestHubClient>(client);
             hubConnection.Start().Wait();
         }
 

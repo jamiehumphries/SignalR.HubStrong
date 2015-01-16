@@ -26,12 +26,6 @@
             hub.MapClientMethods(hubClient, methods);
         }
 
-        public static void MapClientMethods(this IHubProxy hub, object hubClient)
-        {
-            var methods = hubClient.GetType().GetMethods().Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(HubClientMethodAttribute)));
-            hub.MapClientMethods(hubClient, methods);
-        }
-
         private static void MapClientMethods(this IHubProxy hub, object hubClient, IEnumerable<MethodInfo> methods)
         {
             foreach (var methodInfo in methods)
