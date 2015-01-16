@@ -9,7 +9,6 @@ namespace SignalR.HubStrong.Tests.Invocation
     using SignalR.HubStrong.Tests.Contracts;
     using SignalR.HubStrong.Tests.TestHelpers;
     using System;
-    using System.Collections;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -29,67 +28,64 @@ namespace SignalR.HubStrong.Tests.Invocation
         public void TestFixtureSetUp()
         {
             hubConnection = new HubConnection(TestHubSite.Url);
-            hub = hubConnection.CreateHubProxy<ITestHub>("TestHub");
-            client = A.Fake<ITestHubClient>();
-            hub.On<string>("Foo", x => client.Foo(x));
+            hub = hubConnection.CreateHubProxy<ITestHub>();
             hubConnection.Start().Wait();
         }
 
         [SetUp]
         public void SetUp()
         {
+            client = A.Fake<ITestHubClient>();
             progressTracker = A.Fake<IProgressTracker>();
-
-            // Clear recorded calls to client without having to start new hub connection.
-            ((IList)Fake.GetFakeManager(client).RecordedCallsInScope).Clear();
+            hub.On<string>("Foo", x => client.Foo(x));
         }
 
         [Test]
         public async Task Can_invoke_hub_method_with_no_return_value()
         {
             // When
-            await hub.Invoke(h => h.DoFoo("test1"));
+            await hub.Invoke(h => h.DoFoo("bar"));
             await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Foo("test1")).MustHaveHappened();
+            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
         }
 
         [Test]
         public async Task Can_invoke_hub_method_with_a_return_value()
         {
             // When
-            var result = await hub.Invoke(h => h.DoFooAndReturnValue("test2"));
+            var result = await hub.Invoke(h => h.DoFooAndReturnValue("bar"));
             await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Foo("test2")).MustHaveHappened();
-            result.Should().Be("test2");
+            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            result.Should().Be("bar");
         }
 
         [Test]
         public async Task Can_invoke_hub_method_with_progress_tracking_and_no_return_value()
         {
             // When
-            await hub.Invoke((h, p) => h.DoFooAndReportProgress("test3", p), (int x) => progressTracker.OnProgress(x));
+            await hub.Invoke((h, p) => h.DoFooAndReportProgress("bar", p), (int x) => progressTracker.OnProgress(x));
             await Task.Delay(200);
 
             // Then
             A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
-            A.CallTo(() => client.Foo("test3")).MustHaveHappened();
+            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
         }
 
         [Test]
         public async Task Can_invoke_hub_method_with_progress_tracking_and_a_return_value()
         {
             // When
-            var result = await hub.Invoke((h, p) => h.DoFooAndReportProgressAndReturnValue("test4", p), (int x) => progressTracker.OnProgress(x));
+            var result = await hub.Invoke((h, p) => h.DoFooAndReportProgressAndReturnValue("bar", p), (int x) => progressTracker.OnProgress(x));
             await Task.Delay(200);
 
             // Then
             A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
-            A.CallTo(() => client.Foo("test4")).MustHaveHappened();
-            result.Should().Be("test4");
+            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            result.Should().Be("bar");
         }
 
         [TestFixture]
