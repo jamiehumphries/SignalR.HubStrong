@@ -29,7 +29,7 @@ namespace SignalR.HubStrong.Tests.Invocation
         public void TestFixtureSetUp()
         {
             hubConnection = new HubConnection(TestHubSite.Url);
-            hub = new HubProxy<ITestHub>(hubConnection.CreateHubProxy("TestHub"));
+            hub = hubConnection.CreateHubProxy<ITestHub>("TestHub");
             client = A.Fake<ITestHubClient>();
             hub.On<string>("Foo", x => client.Foo(x));
             hubConnection.Start().Wait();
