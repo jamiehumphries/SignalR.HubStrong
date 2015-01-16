@@ -6,16 +6,91 @@
     using Newtonsoft.Json.Linq;
     using NUnit.Framework;
     using SignalR.HubStrong.Tests.Contracts;
+    using SignalR.HubStrong.Tests.TestHelpers;
     using System;
-
-    public interface IProgressTracker
-    {
-        void OnProgress(int progress);
-    }
+    using System.Collections;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class HubProxyTests
     {
+        private HubConnection hubConnection;
+        private IHubProxy<ITestHub> hub;
+        private ITestHubClient client;
+        private IProgressTracker progressTracker;
+
+        public interface IProgressTracker
+        {
+            void OnProgress(int progress);
+        }
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            hubConnection = new HubConnection(TestHubSite.Url);
+            hub = new HubProxy<ITestHub>(hubConnection.CreateHubProxy("TestHub"));
+            client = A.Fake<ITestHubClient>();
+            hub.On<string>("Foo", x => client.Foo(x));
+            hubConnection.Start().Wait();
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            progressTracker = A.Fake<IProgressTracker>();
+
+            // Clear recorded calls to client without having to start new hub connection.
+            ((IList)Fake.GetFakeManager(client).RecordedCallsInScope).Clear();
+        }
+
+        [Test]
+        public async Task Can_invoke_hub_method_with_no_return_value()
+        {
+            // When
+            await hub.Invoke(h => h.DoFoo("test1"));
+            await Task.Delay(200);
+
+            // Then
+            A.CallTo(() => client.Foo("test1")).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task Can_invoke_hub_method_with_a_return_value()
+        {
+            // When
+            var result = await hub.Invoke(h => h.DoFooAndReturnValue("test2"));
+            await Task.Delay(200);
+
+            // Then
+            A.CallTo(() => client.Foo("test2")).MustHaveHappened();
+            result.Should().Be("test2");
+        }
+
+        [Test]
+        public async Task Can_invoke_hub_method_with_progress_tracking_and_no_return_value()
+        {
+            // When
+            await hub.Invoke((h, p) => h.DoFooAndReportProgress("test3", p), (int x) => progressTracker.OnProgress(x));
+            await Task.Delay(200);
+
+            // Then
+            A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
+            A.CallTo(() => client.Foo("test3")).MustHaveHappened();
+        }
+
+        [Test]
+        public async Task Can_invoke_hub_method_with_progress_tracking_and_a_return_value()
+        {
+            // When
+            var result = await hub.Invoke((h, p) => h.DoFooAndReportProgressAndReturnValue("test4", p), (int x) => progressTracker.OnProgress(x));
+            await Task.Delay(200);
+
+            // Then
+            A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
+            A.CallTo(() => client.Foo("test4")).MustHaveHappened();
+            result.Should().Be("test4");
+        }
+
         [TestFixture]
         public class WrappedMembers
         {
