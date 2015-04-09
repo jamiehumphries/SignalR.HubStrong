@@ -55,29 +55,26 @@ namespace SignalR.HubStrong.Tests.Mapping
         {
             // When
             await hub.Invoke("CallHello");
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Hello()).MustHaveHappened();
+            WaitFor.CallTo(() => client.Hello()).ToHaveHappened();
         }
 
         [Test]
-        [Repeat(3)]
         public async Task Can_map_client_methods_with_any_number_of_arguments()
         {
             // When
             await hub.Invoke("CallArgsMethods", "a", "b", "c", "d", "e", "f", "g");
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Args0()).MustHaveHappened();
-            A.CallTo(() => client.Args1("a")).MustHaveHappened();
-            A.CallTo(() => client.Args2("a", "b")).MustHaveHappened();
-            A.CallTo(() => client.Args3("a", "b", "c")).MustHaveHappened();
-            A.CallTo(() => client.Args4("a", "b", "c", "d")).MustHaveHappened();
-            A.CallTo(() => client.Args5("a", "b", "c", "d", "e")).MustHaveHappened();
-            A.CallTo(() => client.Args6("a", "b", "c", "d", "e", "f")).MustHaveHappened();
-            A.CallTo(() => client.Args7("a", "b", "c", "d", "e", "f", "g")).MustHaveHappened();
+            WaitFor.CallTo(() => client.Args0()).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args1("a")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args2("a", "b")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args3("a", "b", "c")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args4("a", "b", "c", "d")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args5("a", "b", "c", "d", "e")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args6("a", "b", "c", "d", "e", "f")).ToHaveHappened();
+            WaitFor.CallTo(() => client.Args7("a", "b", "c", "d", "e", "f", "g")).ToHaveHappened();
         }
 
         [Test]
@@ -94,13 +91,12 @@ namespace SignalR.HubStrong.Tests.Mapping
 
             // When
             await hub.Invoke("CallMultipleParamTypes", intParam, longParam, boolParam, stringParam, arrayParam, dictionaryParam, objectParam);
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.MultipleParamTypes(intParam, longParam, boolParam, stringParam,
+            WaitFor.CallTo(() => client.MultipleParamTypes(intParam, longParam, boolParam, stringParam,
                 A<string[]>.That.Matches(o => o.Contains("hello") && o.Contains("world")),
                 A<Dictionary<string, int>>.That.Matches(d => d["test"].Equals(100)),
-                A<Foo>.That.Matches(f => f.Bar == "Baz"))).MustHaveHappened();
+                A<Foo>.That.Matches(f => f.Bar == "Baz"))).ToHaveHappened();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace SignalR.HubStrong.Tests.Invocation
     using NUnit.Framework;
     using SignalR.HubStrong.Invocation;
     using SignalR.HubStrong.Tests.Contracts;
+    using SignalR.HubStrong.Tests.Mapping;
     using SignalR.HubStrong.Tests.TestHelpers;
     using System;
     using System.Threading.Tasks;
@@ -45,10 +46,9 @@ namespace SignalR.HubStrong.Tests.Invocation
         {
             // When
             await hub.Invoke(h => h.DoFoo("bar"));
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
         }
 
         [Test]
@@ -56,10 +56,9 @@ namespace SignalR.HubStrong.Tests.Invocation
         {
             // When
             var result = await hub.Invoke(h => h.DoFooAndReturnValue("bar"));
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
             result.Should().Be("bar");
         }
 
@@ -68,11 +67,10 @@ namespace SignalR.HubStrong.Tests.Invocation
         {
             // When
             await hub.Invoke((h, p) => h.DoFooAndReportProgress("bar", p), (int x) => progressTracker.OnProgress(x));
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
-            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            WaitFor.CallTo(() => progressTracker.OnProgress(100)).ToHaveHappened();
+            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
         }
 
         [Test]
@@ -80,11 +78,10 @@ namespace SignalR.HubStrong.Tests.Invocation
         {
             // When
             var result = await hub.Invoke((h, p) => h.DoFooAndReportProgressAndReturnValue("bar", p), (int x) => progressTracker.OnProgress(x));
-            await Task.Delay(200);
 
             // Then
-            A.CallTo(() => progressTracker.OnProgress(100)).MustHaveHappened();
-            A.CallTo(() => client.Foo("bar")).MustHaveHappened();
+            WaitFor.CallTo(() => progressTracker.OnProgress(100)).ToHaveHappened();
+            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
             result.Should().Be("bar");
         }
 
