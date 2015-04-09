@@ -80,7 +80,7 @@
   <ItemGroup>
     <Compile Include="Invocation\HubProxyTests.cs" />
     <Compile Include="Mapping\ClientMappingExtensionsTests.cs" />
-    <Compile Include="TestHelpers\WaitForConfiguration.cs" />
+    <Compile Include="TestHelpers\AsyncCallConfiguration.cs" />
     <Compile Include="TestHelpers\TestHubSite.cs" />
     <Compile Include="TestSetUp.cs" />
   </ItemGroup>

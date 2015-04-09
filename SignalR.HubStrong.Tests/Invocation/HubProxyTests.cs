@@ -7,7 +7,6 @@ namespace SignalR.HubStrong.Tests.Invocation
     using NUnit.Framework;
     using SignalR.HubStrong.Invocation;
     using SignalR.HubStrong.Tests.Contracts;
-    using SignalR.HubStrong.Tests.Mapping;
     using SignalR.HubStrong.Tests.TestHelpers;
     using System;
     using System.Threading.Tasks;
@@ -48,7 +47,7 @@ namespace SignalR.HubStrong.Tests.Invocation
             await hub.Invoke(h => h.DoFoo("bar"));
 
             // Then
-            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
+            await Async.CallTo(() => client.Foo("bar")).MustHappen();
         }
 
         [Test]
@@ -58,7 +57,7 @@ namespace SignalR.HubStrong.Tests.Invocation
             var result = await hub.Invoke(h => h.DoFooAndReturnValue("bar"));
 
             // Then
-            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
+            await Async.CallTo(() => client.Foo("bar")).MustHappen();
             result.Should().Be("bar");
         }
 
@@ -69,8 +68,8 @@ namespace SignalR.HubStrong.Tests.Invocation
             await hub.Invoke((h, p) => h.DoFooAndReportProgress("bar", p), (int x) => progressTracker.OnProgress(x));
 
             // Then
-            WaitFor.CallTo(() => progressTracker.OnProgress(100)).ToHaveHappened();
-            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
+            await Async.CallTo(() => progressTracker.OnProgress(100)).MustHappen();
+            await Async.CallTo(() => client.Foo("bar")).MustHappen();
         }
 
         [Test]
@@ -80,8 +79,8 @@ namespace SignalR.HubStrong.Tests.Invocation
             var result = await hub.Invoke((h, p) => h.DoFooAndReportProgressAndReturnValue("bar", p), (int x) => progressTracker.OnProgress(x));
 
             // Then
-            WaitFor.CallTo(() => progressTracker.OnProgress(100)).ToHaveHappened();
-            WaitFor.CallTo(() => client.Foo("bar")).ToHaveHappened();
+            await Async.CallTo(() => progressTracker.OnProgress(100)).MustHappen();
+            await Async.CallTo(() => client.Foo("bar")).MustHappen();
             result.Should().Be("bar");
         }
 
